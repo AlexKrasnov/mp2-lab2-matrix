@@ -269,6 +269,6 @@ TEST(TVector, cant_multiply_vectors_with_not_equal_size)
 		a[i]=0;
 		b[i]=1;
 	}
-	b[10]=1;
+	b[10]=1; 
 	ASSERT_ANY_THROW(a*b);
 }
