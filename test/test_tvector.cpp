@@ -103,11 +103,6 @@ TEST(TVector, can_assign_vectors_of_equal_size)
 TEST(TVector, assign_operator_change_vector_size)
 {
 	TVector<int> vector1(10), vector2(15);
-	for (int i=0;i<10;i++)
-	{
-		vector1[i]=0;
-		vector2[i]=0;
-	}
 	int len = vector1.GetSize();
 	vector1=vector2;
 	EXPECT_NE(len, vector1.GetSize());
@@ -164,6 +159,7 @@ TEST(TVector, can_add_scalar_to_vector)
 	TVector<int> b(a);
 	for (int i=0;i<10;i++)
 		a[i]+=5;
+	ASSERT_NO_THROW(b+5);
 	EXPECT_EQ(a,b+5);
 }
 
@@ -175,6 +171,7 @@ TEST(TVector, can_subtract_scalar_from_vector)
 	TVector<int> b(a);
 	for (int i=0;i<10;i++)
 		a[i]-=5;
+	ASSERT_NO_THROW(b-5);
 	EXPECT_EQ(a,b-5);
 }
 
@@ -186,6 +183,7 @@ TEST(TVector, can_multiply_scalar_by_vector)
 	TVector<int> b(a);
 	for (int i=0;i<10;i++)
 		a[i]*=5;
+	ASSERT_NO_THROW(b*5);
 	EXPECT_EQ(a,b*5);
 }
 
@@ -202,6 +200,7 @@ TEST(TVector, can_add_vectors_with_equal_size)
 	{
 		c[i]+=a[i];
 	}
+	ASSERT_NO_THROW(a+b);
 	EXPECT_EQ(true,c==a+b);
 }
 
@@ -230,6 +229,7 @@ TEST(TVector, can_subtract_vectors_with_equal_size)
 	{
 		c[i]-=a[i];
 	}
+	ASSERT_NO_THROW(a-b);
 	EXPECT_EQ(true,c==a-b);
 }
 
@@ -258,6 +258,7 @@ TEST(TVector, can_multiply_vectors_with_equal_size)
 	{
 		b[i]*=2;
 	}
+	ASSERT_NO_THROW(a*b);
 	EXPECT_EQ(true,6==a*b);
 }
 
