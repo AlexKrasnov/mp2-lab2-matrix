@@ -61,6 +61,8 @@ TEST(TMatrix, can_set_and_get_element)
 		{
 			m[i][j] = 1;
 		}
+		ASSERT_NO_THROW(m[0][0]);
+		ASSERT_NO_THROW(m[1][1]=1);
 		EXPECT_EQ(m[0][0], 1); 
 }
 
@@ -68,12 +70,14 @@ TEST(TMatrix, throws_when_set_element_with_negative_index)
 {
 	TMatrix<int> m(5);
 	ASSERT_ANY_THROW(m[1][-1]=0);
+	ASSERT_ANY_THROW(m[-1][1]=0);
 }
 
 TEST(TMatrix, throws_when_set_element_with_too_large_index)
 {
 	TMatrix<int> m(5);
 	ASSERT_ANY_THROW(m[1][10]=0);
+	ASSERT_ANY_THROW(m[10][1]=0);
 }
 
 TEST(TMatrix, can_assign_matrix_to_itself)
@@ -159,15 +163,16 @@ TEST(TMatrix, matrices_with_different_size_are_not_equal)
 
 TEST(TMatrix, can_add_matrices_with_equal_size)
 {
-    TMatrix<int> a(5);
-    TMatrix<int> b(5);
+    TMatrix<int> a(5),b(5),c(5);
     for (int i = 0; i < a.GetSize(); i++)
         for (int j = i; j < a.GetSize(); j++)
         {
             a[i][j] = 0;
             b[i][j] = 1;
+			c[i][j] = 1;
         }
     ASSERT_NO_THROW(a + b);
+	EXPECT_EQ(a+b,c);
 }
 
 TEST(TMatrix, cant_add_matrices_with_not_equal_size)
@@ -184,15 +189,16 @@ TEST(TMatrix, cant_add_matrices_with_not_equal_size)
 
 TEST(TMatrix, can_subtract_matrices_with_equal_size)
 {
-    TMatrix<int> a(5);
-    TMatrix<int> b(5);
+    TMatrix<int> a(5),b(5),c(5);
     for (int i = 0; i < a.GetSize(); i++)
         for (int j = i; j < a.GetSize(); j++)
         {
             a[i][j] = 0;
             b[i][j] = 1;
+			c[i][j] = -1;
         }
     ASSERT_NO_THROW(a - b);
+	EXPECT_EQ(a-b,c);
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
@@ -207,5 +213,23 @@ TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
 	ASSERT_ANY_THROW(a-b);
 }
 
+// My tests:
+
+TEST(TMatrix, compare_no_equal_matrices_return_false) // собственный 
+{
+	TMatrix<int> m1(5), m2(5);
+	for (int i = 0; i < m1.GetSize(); i++)
+		for (int j = i; j < m1.GetSize(); j++)
+		{
+			m1[i][j] = 1;
+			m2[i][j] = 1;
+		}
+		m1[4][4] = 0;
+		m2[4][4] = 0;
+		TMatrix<int> m3(m2);
+		EXPECT_EQ(false, m1!=m2);
+		m2=m1;
+		EXPECT_EQ(false, m3!=m2);
+}
 
 
