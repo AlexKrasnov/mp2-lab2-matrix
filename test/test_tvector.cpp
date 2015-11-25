@@ -49,8 +49,7 @@ TEST(TVector, copied_vector_has_its_own_memory)
 
 TEST(TVector, can_get_size) //начальный
 {
-	TVector<int> v(4);
-
+	TVector<int> v(4, 2);
 	EXPECT_EQ(4, v.GetSize());
 }
 
@@ -71,14 +70,14 @@ TEST(TVector, can_set_and_get_element) //начальный
 
 TEST(TVector, throws_when_set_element_with_negative_index)
 {
-    TVector<int> a(10);
-    ASSERT_ANY_THROW(a[-5] = 1);
+	TVector<int> a(10);
+	ASSERT_ANY_THROW(a[-5] = 1);
 }
 
 TEST(TVector, throws_when_set_element_with_too_large_index)
 {
-    TVector<int> a(10);
-    ASSERT_ANY_THROW(a[15] = 1);
+	TVector<int> a(10);
+	ASSERT_ANY_THROW(a[15] = 1);
 }
 
 TEST(TVector, can_assign_vector_to_itself)
@@ -87,6 +86,8 @@ TEST(TVector, can_assign_vector_to_itself)
 	for (int i = 0; i < 10; i++)
 		v[i] = i;
 	ASSERT_NO_THROW(v = v);
+	TVector<int> w(10, 5);
+	ASSERT_NO_THROW(w = w);
 }
 
 TEST(TVector, can_assign_vectors_of_equal_size)
@@ -120,15 +121,15 @@ TEST(TVector, can_assign_vectors_of_different_size)
 
 TEST(TVector, compare_equal_vectors_return_true)
 {
-    TVector<int> v1(5), v2(5);
-    for (int i = 0; i < 5; i++)
-    {
-        v1[i] = i*i;
-        v2[i] = i*i;
-    }
-    v1[4] = 1;
-    v2[4] = 1;
-    EXPECT_EQ(true, v1==v2);
+	TVector<int> v1(5), v2(5);
+	for (int i = 0; i < 5; i++)
+	{
+		v1[i] = i*i;
+		v2[i] = i*i;
+	}
+	v1[4] = 1;
+	v2[4] = 1;
+	EXPECT_EQ(true, v1==v2);
 }
 
 TEST(TVector, compare_vector_with_itself_return_true)
@@ -273,3 +274,66 @@ TEST(TVector, cant_multiply_vectors_with_not_equal_size)
 	b[10]=1; 
 	ASSERT_ANY_THROW(a*b);
 }
+
+// My tests:
+
+TEST(TVector, throws_when_create_vector_with_NULL_length) // собственный
+{
+	ASSERT_ANY_THROW(TVector<int> v(0));
+}
+
+TEST(TVector, throws_when_create_vector_with_positive_startindex) // собственный
+{
+	ASSERT_NO_THROW(TVector<int> v(5, 2));
+}
+
+TEST(TVector, throws_when_create_vector_with_wrong_startindex) // собственный
+{
+	ASSERT_ANY_THROW(TVector<int> v(3, 3)); //StartIndex = Size
+	ASSERT_ANY_THROW(TVector<int> v(3, 5)); //StartIndex > Size
+}
+
+TEST(TVector, can_set_and_get_element_improved) // собственный
+{
+	TVector<int> w(5);
+	ASSERT_NO_THROW(w[0]);
+	ASSERT_NO_THROW(w[0]=5);
+	w[0] = 5;
+	EXPECT_EQ(5, w[0]);
+}
+
+TEST(TVector, throws_when_set_element_with_wrong_index) // собственный
+{
+	TVector<int> a(10, 5);
+	ASSERT_ANY_THROW(a[3] = 1); //Size < StartIndex
+}
+
+TEST(TVector, vectors_with_different_index_are_not_equal) // собственный
+{
+	TVector<int> v1(5, 3), v2(5, 2);
+	EXPECT_EQ(true,v1!=v2);
+}
+
+TEST(TVector, input) // собственный
+{
+	TVector<int> v(2), w(2);
+	v[0] = 1;
+	v[1] = 0;
+	stringstream s;
+	s << "1 0 ";
+	s >> w;
+	EXPECT_EQ(v, w);
+}
+
+TEST(TVector, output) // собственный
+{
+	TVector<int> v(2);
+	v[0] = 1;
+	v[1] = 0;
+	stringstream s;
+	s << v;
+	string str;
+	getline(s, str);
+	EXPECT_EQ(string("1\t0\t"), str);
+}
+
