@@ -215,21 +215,28 @@ TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
 
 // My tests:
 
-TEST(TMatrix, compare_no_equal_matrices_return_false) // собственный 
+TEST(TMatrix, input) // собственный
 {
-	TMatrix<int> m1(5), m2(5);
-	for (int i = 0; i < m1.GetSize(); i++)
-		for (int j = i; j < m1.GetSize(); j++)
-		{
-			m1[i][j] = 1;
-			m2[i][j] = 1;
-		}
-		m1[4][4] = 0;
-		m2[4][4] = 0;
-		TMatrix<int> m3(m2);
-		EXPECT_EQ(false, m1!=m2);
-		m2=m1;
-		EXPECT_EQ(false, m3!=m2);
+	TMatrix<int> v(2), w(2);
+	v[0][0] = 1;
+	v[0][1] = 0;
+	v[1][1] = 1;
+	stringstream s;
+	s << "1 0 1 ";
+	s >> w;
+	EXPECT_EQ(v, w);
 }
 
-
+TEST(TMatrix, output) // собственный
+{
+	TMatrix<int> v(2);
+	v[0][0] = 1;
+	v[0][1] = 0;
+	v[1][1] = 1;
+	stringstream s;
+	s << v;
+	string str;
+	getline(s, str);
+	printf("%s",str);
+	EXPECT_EQ(string("1\t0\t"), str);
+}
