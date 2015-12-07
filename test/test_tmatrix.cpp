@@ -163,16 +163,17 @@ TEST(TMatrix, matrices_with_different_size_are_not_equal)
 
 TEST(TMatrix, can_add_matrices_with_equal_size)
 {
-    TMatrix<int> a(5),b(5),c(5);
-    for (int i = 0; i < a.GetSize(); i++)
-        for (int j = i; j < a.GetSize(); j++)
-        {
-            a[i][j] = 0;
-            b[i][j] = 1;
+	TMatrix<int> b(2),c(2),d(2);
+	for (int i = 0; i < b.GetSize(); i++)
+		for (int j = i; j < b.GetSize(); j++)
+		{
+			b[i][j] = 1;
 			c[i][j] = 1;
-        }
-    ASSERT_NO_THROW(a + b);
-	EXPECT_EQ(a+b,c);
+			d[i][j] = b[i][j] + c[i][j];
+		}
+    TMatrix<int> tmp(b + c);
+	ASSERT_NO_THROW(b + c);
+	EXPECT_EQ(b + c, d);
 }
 
 TEST(TMatrix, cant_add_matrices_with_not_equal_size)
@@ -189,16 +190,22 @@ TEST(TMatrix, cant_add_matrices_with_not_equal_size)
 
 TEST(TMatrix, can_subtract_matrices_with_equal_size)
 {
-    TMatrix<int> a(5),b(5),c(5);
-    for (int i = 0; i < a.GetSize(); i++)
-        for (int j = i; j < a.GetSize(); j++)
-        {
-            a[i][j] = 0;
-            b[i][j] = 1;
+	TMatrix<int> a(5),b(5),c(5);
+	for (int i = 0; i < a.GetSize(); i++)
+		for (int j = i; j < a.GetSize(); j++)
+		{
+			a[i][j] = 0;
+			b[i][j] = 1;
 			c[i][j] = -1;
-        }
-    ASSERT_NO_THROW(a - b);
-	EXPECT_EQ(a-b,c);
+		}
+		ASSERT_NO_THROW(a - b);
+		EXPECT_EQ(a-b,c);
+		for (int i=0;i<2;i++)
+			for (int j = i; j < 2; j++)
+				printf("%d\t", a-b);
+		for (int i=0;i<2;i++)
+			for (int j = i; j < 2; j++)
+				printf("%d\t", c);
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
@@ -213,6 +220,7 @@ TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
 	ASSERT_ANY_THROW(a-b);
 }
 
+/*
 // My tests:
 
 TEST(TMatrix, input) // собственный
@@ -237,6 +245,6 @@ TEST(TMatrix, output) // собственный
 	s << v;
 	string str;
 	getline(s, str);
-	printf("%s",str);
 	EXPECT_EQ(string("1\t0\t"), str);
 }
+*/
