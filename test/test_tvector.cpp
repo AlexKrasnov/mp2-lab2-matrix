@@ -275,6 +275,7 @@ TEST(TVector, cant_multiply_vectors_with_not_equal_size)
 	ASSERT_ANY_THROW(a*b);
 }
 
+/*
 // My tests:
 
 TEST(TVector, throws_when_create_vector_with_NULL_length) // собственный
@@ -336,4 +337,4 @@ TEST(TVector, output) // собственный
 	getline(s, str);
 	EXPECT_EQ(string("1\t0\t"), str);
 }
-
+*/
